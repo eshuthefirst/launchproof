@@ -1,122 +1,117 @@
-// FILE: app/layout.js
-import { Inter } from 'next/font/google';
+"use client";
 
-const inter = Inter({ subsets: ['latin'] });
+import { useState } from "react";
 
-export const metadata = {
-  title: 'LaunchProof',
-  description: 'Build it. Prove it. Pitch it.',
-};
-
-export default function RootLayout({ children }) {
-  return (
-    <html lang="en">
-      <body className={inter.className + " bg-white text-gray-900"}>
-        <nav className="flex justify-between items-center px-8 py-4 border-b">
-          <h1 className="font-bold text-xl">LaunchProof</h1>
-          <div className="flex gap-6">
-            <a href="/">Home</a>
-            <a href="/about">About</a>
-            <a href="/competition">Competition</a>
-            <a href="/apply">Apply</a>
-          </div>
-        </nav>
-        {children}
-      </body>
-    </html>
-  );
-}
-
-// FILE: app/page.js
 export default function Home() {
+  const [page, setPage] = useState("home");
+
+  const navStyle = {
+    display: "flex",
+    gap: "20px",
+    padding: "20px",
+    borderBottom: "1px solid #ddd",
+    cursor: "pointer"
+  };
+
+  const container = {
+    padding: "40px",
+    maxWidth: "900px",
+    margin: "auto",
+    fontFamily: "Arial"
+  };
+
   return (
     <main>
-      <section className="text-center py-24 px-6">
-        <h1 className="text-6xl font-bold mb-4">LaunchProof</h1>
-        <p className="text-xl text-gray-600 mb-6">Build it. Prove it. Pitch it.</p>
-        <button className="bg-blue-600 text-white px-6 py-3 rounded-xl text-lg hover:bg-blue-700">
-          Register Now
-        </button>
-      </section>
+      {/* NAVBAR */}
+      <nav style={navStyle}>
+        <span onClick={() => setPage("home")}>Home</span>
+        <span onClick={() => setPage("about")}>About</span>
+        <span onClick={() => setPage("competition")}>Competition</span>
+        <span onClick={() => setPage("apply")}>Apply</span>
+      </nav>
 
-      <section className="max-w-5xl mx-auto px-6 py-12 grid md:grid-cols-2 gap-6">
-        <div className="p-6 bg-gray-50 rounded-2xl">
-          <h3 className="font-semibold text-lg">Teams</h3>
-          <p>3–5 students</p>
-        </div>
-        <div className="p-6 bg-gray-50 rounded-2xl">
-          <h3 className="font-semibold text-lg">Registration</h3>
-          <p>$20 per team</p>
-        </div>
-        <div className="p-6 bg-gray-50 rounded-2xl">
-          <h3 className="font-semibold text-lg">Duration</h3>
-          <p>4 Weeks</p>
-        </div>
-        <div className="p-6 bg-gray-50 rounded-2xl">
-          <h3 className="font-semibold text-lg">Prize Pool</h3>
-          <p>$750</p>
-        </div>
-      </section>
+      <div style={container}>
+        {/* HOME */}
+        {page === "home" && (
+          <>
+            <h1 style={{ fontSize: "40px" }}>LaunchProof</h1>
+            <p style={{ color: "gray" }}>
+              Build it. Prove it. Pitch it.
+            </p>
 
-      <section className="max-w-4xl mx-auto px-6 py-12">
-        <h2 className="text-2xl font-semibold mb-4">Overview</h2>
-        <p className="text-gray-700">
-          LaunchProof is a 4-week business and technology competition where students solve real-world problems by building prototypes or designs and validating them with real user data.
-        </p>
-      </section>
-    </main>
-  );
-}
+            <h2>Overview</h2>
+            <p>
+              LaunchProof is a 4-week business and technology competition where students
+              build real solutions, create prototypes (software, hardware, or CAD),
+              and validate them with real user data.
+            </p>
 
-// FILE: app/about/page.js
-export default function About() {
-  return (
-    <main className="max-w-3xl mx-auto px-6 py-16">
-      <h1 className="text-3xl font-bold mb-4">About LaunchProof</h1>
-      <p className="text-gray-700">
-        LaunchProof is a startup-style competition where high school students build real solutions, create prototypes, and validate their ideas with real users.
-      </p>
-    </main>
-  );
-}
+            <h2>Details</h2>
+            <ul>
+              <li>Teams: 3–5 students</li>
+              <li>Registration: $20 per team</li>
+              <li>Duration: 4 weeks</li>
+              <li>Prize Pool: $750</li>
+            </ul>
+          </>
+        )}
 
-// FILE: app/competition/page.js
-export default function Competition() {
-  return (
-    <main className="max-w-3xl mx-auto px-6 py-16">
-      <h1 className="text-3xl font-bold mb-6">Competition</h1>
+        {/* ABOUT */}
+        {page === "about" && (
+          <>
+            <h1>About LaunchProof</h1>
+            <p>
+              LaunchProof is a startup-style competition where high school students
+              build real-world solutions and validate them with real users.
+            </p>
+          </>
+        )}
 
-      <h2 className="text-xl font-semibold mb-2">Timeline</h2>
-      <ul className="mb-6 space-y-2">
-        <li>Week 1: Research (20+ users)</li>
-        <li>Week 2: Build prototype</li>
-        <li>Week 3: Testing & validation</li>
-        <li>Week 4: Final pitch</li>
-      </ul>
+        {/* COMPETITION */}
+        {page === "competition" && (
+          <>
+            <h1>Competition</h1>
 
-      <h2 className="text-xl font-semibold mb-2">Prizes</h2>
-      <ul className="space-y-2">
-        <li>1st: $400</li>
-        <li>2nd: $250</li>
-        <li>3rd: $100</li>
-      </ul>
-    </main>
-  );
-}
+            <h2>Timeline</h2>
+            <ul>
+              <li>Week 1: Research (20+ users)</li>
+              <li>Week 2: Build prototype</li>
+              <li>Week 3: Testing</li>
+              <li>Week 4: Final pitch</li>
+            </ul>
 
-// FILE: app/apply/page.js
-export default function Apply() {
-  return (
-    <main className="max-w-3xl mx-auto px-6 py-16 text-center">
-      <h1 className="text-3xl font-bold mb-4">Apply</h1>
-      <p className="text-gray-600 mb-6">Join LaunchProof as a participant or executive.</p>
+            <h2>Prizes</h2>
+            <ul>
+              <li>1st: $400</li>
+              <li>2nd: $250</li>
+              <li>3rd: $100</li>
+            </ul>
+          </>
+        )}
 
-      <button
-        className="bg-blue-600 text-white px-6 py-3 rounded-xl text-lg hover:bg-blue-700"
-        onClick={() => window.location.href = "https://forms.google.com"}
-      >
-        Apply Now
-      </button>
+        {/* APPLY */}
+        {page === "apply" && (
+          <>
+            <h1>Apply</h1>
+            <p>Join LaunchProof as a participant or executive.</p>
+
+            <button
+              style={{
+                padding: "12px 20px",
+                background: "black",
+                color: "white",
+                border: "none",
+                cursor: "pointer"
+              }}
+              onClick={() =>
+                (window.location.href = "https://forms.google.com")
+              }
+            >
+              Apply Now
+            </button>
+          </>
+        )}
+      </div>
     </main>
   );
 }
