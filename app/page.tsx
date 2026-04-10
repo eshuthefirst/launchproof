@@ -435,6 +435,9 @@ const GLOBAL_CSS = `
     border-radius: var(--radius-lg);
     padding: 28px;
     transition: border-color var(--transition), transform var(--transition);
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
   }
   .card:hover {
     border-color: rgba(59,130,246,0.3);
@@ -646,6 +649,8 @@ const GLOBAL_CSS = `
   }
   .form-input {
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
     padding: 11px 14px;
     background: var(--bg3);
     border: 1px solid var(--border);
@@ -668,25 +673,26 @@ const GLOBAL_CSS = `
     display: flex;
     align-items: center;
     gap: 0;
-    margin-bottom: 40px;
-    overflow-x: auto;
-    padding-bottom: 4px;
+    margin-bottom: 32px;
+    width: 100%;
+    overflow: hidden;
   }
   .step-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    white-space: nowrap;
+    gap: 5px;
+    min-width: 0;
+    flex-shrink: 1;
   }
   .step-num {
-    width: 30px; height: 30px;
+    width: 26px; height: 26px;
     border-radius: 50%;
     background: var(--bg3);
     border: 2px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
+    font-size: 0.72rem;
     font-weight: 700;
     color: var(--grey);
     flex-shrink: 0;
@@ -694,10 +700,24 @@ const GLOBAL_CSS = `
   }
   .step-num.active { background: var(--blue); border-color: var(--blue); color: #fff; }
   .step-num.done { background: rgba(59,130,246,0.2); border-color: var(--blue); color: var(--blue-light); }
-  .step-label { font-size: 0.8rem; font-weight: 500; color: var(--grey-dim); }
-  .step-label.active { color: var(--white); font-weight: 600; }
-  .step-connector { width: 32px; height: 2px; background: var(--border); margin: 0 4px; flex-shrink: 0; }
+  .step-label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--grey-dim);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 60px;
+  }
+  .step-label.active { color: var(--white); font-weight: 600; max-width: 80px; }
+  .step-connector { width: 14px; min-width: 8px; height: 2px; background: var(--border); flex-shrink: 1; margin: 0 3px; }
   .step-connector.done { background: var(--blue); }
+
+  @media (max-width: 480px) {
+    .step-label { display: none; }
+    .step-label.active { display: block; max-width: 70px; }
+    .step-connector { width: 10px; min-width: 6px; }
+  }
 
   /* info box */
   .info-box {
@@ -725,6 +745,8 @@ const GLOBAL_CSS = `
     gap: 10px;
     align-items: flex-start;
     margin: 20px 0;
+    box-sizing: border-box;
+    width: 100%;
   }
 
   /* member block */
@@ -1423,7 +1445,7 @@ function RegistrationFlow() {
           <p style={{ color: "var(--grey)", fontSize: "0.95rem", marginBottom: 8, maxWidth: 380, margin: "0 auto 20px" }}>
             You'll now be redirected to our secure Stripe payment page to complete your <strong style={{ color: "var(--white)" }}>$20 CAD</strong> registration fee.
           </p>
-          <div className="warn-box" style={{ maxWidth: 420, margin: "0 auto 24px", textAlign: "left" }}>
+          <div className="warn-box" style={{ textAlign: "left" }}>
             <span>⚠️</span>
             <span>Registration is only confirmed after payment is successfully completed.</span>
           </div>
@@ -1595,31 +1617,48 @@ function CompetitionPage({ regRef }: { regRef: React.RefObject<HTMLDivElement> }
       {/* Registration */}
       <section className="section" ref={regRef} id="register">
         <div className="container">
-          <div className="two-col-left-wide">
-            <div>
-              <div className="section-label">Registration</div>
-              <h2 className="section-title">Join the Competition</h2>
-              <p className="section-desc" style={{ marginBottom: 24 }}>
-                Registration fee is <strong style={{ color: "var(--white)" }}>$20 CAD per team</strong>. Complete the form and pay to secure your spot.
-              </p>
-              <div className="card">
-                {[
-                  { icon: "✅", t: "Teams of 3–5 students" },
-                  { icon: "🎓", t: "Open to all high school students" },
-                  { icon: "💳", t: "$20 CAD per team" },
-                  { icon: "🔒", t: "Confirmed after payment" },
-                ].map((i, idx) => (
-                  <div key={idx} style={{ display: "flex", gap: 10, alignItems: "center", padding: "10px 0", borderBottom: idx < 3 ? "1px solid var(--border)" : "none" }}>
-                    <span style={{ fontSize: "1rem" }}>{i.icon}</span>
-                    <span style={{ fontSize: "0.875rem" }}>{i.t}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+          {/* Header row */}
+          <div style={{ marginBottom: 32 }}>
+            <div className="section-label">Registration</div>
+            <h2 className="section-title">Join the Competition</h2>
+            <p className="section-desc">
+              Registration fee is <strong style={{ color: "var(--white)" }}>$20 CAD per team</strong>. Complete the form and pay to secure your spot.
+            </p>
+          </div>
 
-            <div className="card" style={{ padding: 32 }}>
-              <RegistrationFlow />
-            </div>
+          {/* Info chips row */}
+          <div style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 12,
+            marginBottom: 40,
+          }}>
+            {[
+              { icon: "✅", t: "Teams of 3–5 students" },
+              { icon: "🎓", t: "Open to all high school students" },
+              { icon: "💳", t: "$20 CAD per team" },
+              { icon: "🔒", t: "Confirmed after payment" },
+            ].map((item, idx) => (
+              <div key={idx} style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                padding: "10px 16px",
+                background: "var(--bg2)",
+                border: "1px solid var(--border)",
+                borderRadius: 99,
+                fontSize: "0.875rem",
+                fontWeight: 500,
+              }}>
+                <span>{item.icon}</span>
+                <span>{item.t}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Full-width form card */}
+          <div className="card" style={{ padding: "36px clamp(16px, 4vw, 40px)", maxWidth: 620, margin: "0 auto", boxSizing: "border-box" }}>
+            <RegistrationFlow />
           </div>
         </div>
       </section>
