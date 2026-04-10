@@ -48,7 +48,7 @@ const GLOBAL_CSS = `
     --transition: 0.22s cubic-bezier(.4,0,.2,1);
   }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
 
   body {
     background: var(--bg);
@@ -229,13 +229,38 @@ const GLOBAL_CSS = `
   }
 
   /* page wrapper */
-  .page { padding-top: var(--nav-h); min-height: 100vh; }
+  .page { padding-top: var(--nav-h); min-height: 100vh; overflow-x: hidden; }
 
   /* container */
   .container {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 0 clamp(20px,5vw,48px);
+    padding: 0 clamp(16px,4vw,48px);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* responsive two-col grid */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+    width: 100%;
+  }
+  .two-col-left-wide {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 48px;
+    align-items: start;
+    width: 100%;
+  }
+
+  @media (max-width: 900px) {
+    .two-col, .two-col-left-wide {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
   }
 
   /* hero */
@@ -1103,7 +1128,7 @@ function HomePage({
       {/* About */}
       <section className="section">
         <div className="container">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center" }}>
+          <div className="two-col" style={{ alignItems: "center" }}>
             <div>
               <div className="section-label">About LaunchProof</div>
               <h2 className="section-title">More than an idea.<br />Build something real.</h2>
@@ -1461,7 +1486,7 @@ function CompetitionPage({ regRef }: { regRef: React.RefObject<HTMLDivElement> }
       {/* Required Questions */}
       <section className="section">
         <div className="container">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "start" }}>
+          <div className="two-col">
             <div>
               <div className="section-label">Presentation</div>
               <h2 className="section-title">6 Required Questions</h2>
@@ -1570,7 +1595,7 @@ function CompetitionPage({ regRef }: { regRef: React.RefObject<HTMLDivElement> }
       {/* Registration */}
       <section className="section" ref={regRef} id="register">
         <div className="container">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1.3fr", gap: 60, alignItems: "start" }}>
+          <div className="two-col-left-wide">
             <div>
               <div className="section-label">Registration</div>
               <h2 className="section-title">Join the Competition</h2>
@@ -1672,7 +1697,7 @@ function FAQPage() {
       {/* Timeline */}
       <section className="section">
         <div className="container">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60 }}>
+          <div className="two-col">
             <div>
               <div className="section-label">Timeline</div>
               <h2 className="section-title">Key Dates</h2>
@@ -1728,16 +1753,12 @@ function FAQPage() {
 
 // ─── Page: Team ────────────────────────────────────────────────────────────────
 function TeamPage() {
-  const organizers = [
-    { initials: "LP", name: "Placeholder Name", role: "Co-Founder & Director" },
-    { initials: "LP", name: "Placeholder Name", role: "Co-Founder & Operations" },
-  ];
-
   const executives = [
-    { initials: "EX", name: "Placeholder Name", role: "Head Judge · Technology" },
-    { initials: "EX", name: "Placeholder Name", role: "Judge · Business Strategy" },
-    { initials: "EX", name: "Placeholder Name", role: "Judge · Product Design" },
-    { initials: "EX", name: "Placeholder Name", role: "Judge · Innovation" },
+    { initials: "LP", name: "Placeholder Name", role: "Co-Founder & Director", tag: "Founder" },
+    { initials: "LP", name: "Placeholder Name", role: "Co-Founder & Operations", tag: "Founder" },
+    { initials: "EX", name: "Placeholder Name", role: "Head Judge · Technology", tag: "Executive" },
+    { initials: "EX", name: "Placeholder Name", role: "Judge · Business Strategy", tag: "Executive" },
+    { initials: "EX", name: "Placeholder Name", role: "Judge · Product Design", tag: "Executive" },
   ];
 
   return (
@@ -1746,46 +1767,53 @@ function TeamPage() {
         <div className="container">
           <div className="section-label">Our Team</div>
           <h1 className="section-title" style={{ fontSize: "clamp(2rem,5vw,3.5rem)", marginBottom: 8 }}>
-            Team & Organizers
+            Executive Team
           </h1>
-          <p className="section-desc" style={{ marginBottom: 56 }}>
+          <p className="section-desc" style={{ marginBottom: 12 }}>
             LaunchProof is organized and run by students, for students.
           </p>
-
-          {/* Organizers */}
-          <div className="section-label">Founders</div>
-          <div className="grid-2" style={{ maxWidth: 600, marginBottom: 60 }}>
-            {organizers.map((p, i) => (
-              <div className="team-card" key={i}>
-                <div className="team-avatar" style={{ animationDelay: `${i * 0.5}s` }}>{p.initials}</div>
-                <div className="team-name">{p.name}</div>
-                <div className="team-role">{p.role}</div>
-              </div>
-            ))}
-          </div>
-
-          <div className="divider" style={{ marginBottom: 56 }} />
-
-          {/* Executive / Judges */}
-          <div className="section-label">Executive Team</div>
-          <h2 className="section-title" style={{ marginBottom: 8 }}>Judges</h2>
-          <div className="info-box" style={{ maxWidth: 560, marginBottom: 32 }}>
+          <div className="info-box" style={{ maxWidth: 560, marginBottom: 48 }}>
             <span className="info-box-icon">ℹ️</span>
             The executive team also serves as judges for the competition.
           </div>
-          <div className="grid-4">
+
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+            gap: 20,
+            width: "100%",
+          }}>
             {executives.map((p, i) => (
               <div className="team-card" key={i}>
-                <div className="team-avatar" style={{ animationDelay: `${i * 0.4}s`, background: "linear-gradient(135deg, #1e3a6e, #3B82F6)" }}>{p.initials}</div>
+                <div
+                  className="team-avatar"
+                  style={{
+                    animationDelay: `${i * 0.35}s`,
+                    background: p.tag === "Founder"
+                      ? "linear-gradient(135deg, #1e3a8a, #3B82F6)"
+                      : "linear-gradient(135deg, #1e3a6e, #60A5FA)",
+                  }}
+                >
+                  {p.initials}
+                </div>
                 <div className="team-name">{p.name}</div>
                 <div className="team-role">{p.role}</div>
+                <div style={{ marginTop: 10 }}>
+                  <span className="tag" style={{
+                    fontSize: "0.7rem",
+                    background: p.tag === "Founder" ? "rgba(59,130,246,0.18)" : "rgba(96,165,250,0.12)",
+                    color: p.tag === "Founder" ? "var(--blue-light)" : "rgba(150,200,255,0.85)",
+                  }}>
+                    {p.tag}
+                  </span>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <div className="divider" style={{ margin: "0 0 0 0" }} />
+      <div className="divider" />
 
       {/* Join Team */}
       <section style={{ padding: "80px 0", background: "var(--bg2)" }}>
@@ -1831,7 +1859,7 @@ function ContactPage() {
             Have questions? We're here to help. Reach out anytime.
           </p>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: 60, alignItems: "start" }}>
+          <div className="two-col-left-wide">
             {/* Left */}
             <div>
               <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 40 }}>
