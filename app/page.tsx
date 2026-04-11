@@ -1246,9 +1246,129 @@ function HomePage({
   );
 }
 
+// ─── EmailJS config ───────────────────────────────────────────────────────────
+// SETUP INSTRUCTIONS (5 min, free):
+// 1. Sign up at https://www.emailjs.com
+// 2. Add Service: Gmail → connect eshwarsg2000@gmail.com → copy Service ID below
+// 3. Create THREE email templates (see bodies below), copy each Template ID below
+// 4. Account page → copy Public Key below
+//
+// Template 1 – CONTACT (EMAILJS_TMPL_CONTACT):
+//   To: eshwarsg2000@gmail.com
+//   Subject: LaunchProof Contact from {{from_name}}
+//   Body:
+//     Name: {{from_name}}
+//     Email: {{from_email}}
+//     Message: {{message}}
+//
+// Template 2 – REGISTRATION (EMAILJS_TMPL_REG):
+//   To: eshwarsg2000@gmail.com
+//   Subject: 🚀 New Registration – {{team_name}}
+//   Body:
+//     TEAM: {{team_name}} ({{total_members}} members)
+//     LEADER: {{leader_name}} | {{leader_email}} | {{leader_school}}
+//     MEMBERS:
+//     {{members}}
+//     STATUS: Awaiting payment
+//
+// Template 3 – PAYMENT CONFIRMED (EMAILJS_TMPL_PAID):
+//   To: eshwarsg2000@gmail.com
+//   Subject: ✅ PAID & REGISTERED – {{team_name}}
+//   Body:
+//     PAYMENT CONFIRMED!
+//     TEAM: {{team_name}} ({{total_members}} members)
+//     LEADER: {{leader_name}} | {{leader_email}} | {{leader_school}}
+//     MEMBERS:
+//     {{members}}
+//     STATUS: Paid $20 CAD via Stripe ✅
+
+const EMAILJS_PUBLIC_KEY    = "YOUR_PUBLIC_KEY";
+const EMAILJS_SERVICE_ID    = "YOUR_SERVICE_ID";
+const EMAILJS_TMPL_CONTACT  = "YOUR_CONTACT_TEMPLATE_ID";
+const EMAILJS_TMPL_REG      = "YOUR_REGISTRATION_TEMPLATE_ID";
+const EMAILJS_TMPL_PAID     = "YOUR_PAYMENT_TEMPLATE_ID";
+
+function loadEmailJS(): Promise<void> {
+  return new Promise((resolve) => {
+    if ((window as any).emailjs) { resolve(); return; }
+    const s = document.createElement("script");
+    s.src = "https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js";
+    s.onload = () => {
+      (window as any).emailjs.init(EMAILJS_PUBLIC_KEY);
+      resolve();
+    };
+    document.head.appendChild(s);
+  });
+}
+
+function buildMembersText(data: RegistrationData): string {
+  if (data.members.length === 0) return "No additional members";
+  return data.members.map((m, i) =>
+    `Member ${i + 1}: ${m.name || "—"} | ${m.email || "—"} | ${m.school || "—"}`
+  ).join("\n");
+}
+
+// Email 1 – contact form message
+async function sendContactEmail(name: string, email: string, message: string) {
+  try {
+    await loadEmailJS();
+    await (window as any).emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TMPL_CONTACT, {
+      from_name: name,
+      from_email: email,
+      message,
+    });
+  } catch (err) { console.error("EmailJS contact error:", err); }
+}
+
+// Email 2 – new registration (sent when they click "Proceed to Payment")
+async function sendRegistrationEmail(data: RegistrationData) {
+  try {
+    await loadEmailJS();
+    await (window as any).emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TMPL_REG, {
+      team_name:     data.teamName,
+      leader_name:   data.leaderName,
+      leader_email:  data.leaderEmail,
+      leader_school: data.leaderSchool,
+      members:       buildMembersText(data),
+      total_members: String(1 + data.members.length),
+    });
+  } catch (err) { console.error("EmailJS reg error:", err); }
+}
+
+// Email 3 – payment confirmed (sent when Stripe redirects back with ?payment=success)
+async function sendPaymentConfirmedEmail(data: RegistrationData) {
+  try {
+    await loadEmailJS();
+    await (window as any).emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TMPL_PAID, {
+      team_name:     data.teamName,
+      leader_name:   data.leaderName,
+      leader_email:  data.leaderEmail,
+      leader_school: data.leaderSchool,
+      members:       buildMembersText(data),
+      total_members: String(1 + data.members.length),
+    });
+  } catch (err) { console.error("EmailJS payment error:", err); }
+}
+
+// Persist registration data in sessionStorage so it survives the Stripe redirect
+const REG_STORAGE_KEY = "lp_pending_reg";
+function saveRegToSession(data: RegistrationData) {
+  try { sessionStorage.setItem(REG_STORAGE_KEY, JSON.stringify(data)); } catch {}
+}
+function loadRegFromSession(): RegistrationData | null {
+  try {
+    const raw = sessionStorage.getItem(REG_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch { return null; }
+}
+function clearRegFromSession() {
+  try { sessionStorage.removeItem(REG_STORAGE_KEY); } catch {}
+}
+
 // ─── Component: Registration ──────────────────────────────────────────────────
 function RegistrationFlow() {
   const [step, setStep] = useState(1);
+  const [sending, setSending] = useState(false);
   const [data, setData] = useState<RegistrationData>({
     leaderName: "",
     leaderEmail: "",
@@ -1276,6 +1396,23 @@ function RegistrationFlow() {
 
   const removeMember = (i: number) =>
     setData((d) => ({ ...d, members: d.members.filter((_, idx) => idx !== i) }));
+
+  // Step 4 → save data, send "new registration" email, then go to step 5
+  const handleProceedToPayment = async () => {
+    setSending(true);
+    saveRegToSession(data);          // persist so we have it after Stripe redirect
+    await sendRegistrationEmail(data); // Email 2: new registration notification
+    setSending(false);
+    setStep(5);
+  };
+
+  // Build Stripe link with ?success_url pointing back here with payment=success
+  // Stripe Payment Links support a {CHECKOUT_SESSION_ID} param but for simplicity
+  // we append payment=success&team=<encoded> to the return URL via Stripe dashboard:
+  //   In Stripe dashboard → Payment Link → After payment → Redirect to custom URL:
+  //   https://YOUR-SITE.com/?payment=success
+  // The team data is recovered from sessionStorage on that redirect.
+  const stripeLink = STRIPE_LINK;
 
   const STEPS = ["Leader Info", "Team Info", "Members", "Review", "Payment"];
 
@@ -1430,7 +1567,14 @@ function RegistrationFlow() {
 
           <div style={{ display: "flex", gap: 12 }}>
             <button className="btn-outline" onClick={() => setStep(3)} style={{ flex: 1, justifyContent: "center" }}>← Back</button>
-            <button className="btn-primary" style={{ flex: 1, justifyContent: "center" }} onClick={() => setStep(5)}>Proceed to Payment →</button>
+            <button
+              className="btn-primary"
+              style={{ flex: 1, justifyContent: "center", opacity: sending ? 0.7 : 1 }}
+              onClick={handleProceedToPayment}
+              disabled={sending}
+            >
+              {sending ? "Sending…" : "Proceed to Payment →"}
+            </button>
           </div>
         </div>
       )}
@@ -1450,7 +1594,7 @@ function RegistrationFlow() {
             <span>Registration is only confirmed after payment is successfully completed.</span>
           </div>
           <a
-            href={STRIPE_LINK}
+            href={stripeLink}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary"
@@ -1880,15 +2024,14 @@ function TeamPage() {
 // ─── Page: Contact ─────────────────────────────────────────────────────────────
 function ContactPage() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
 
-  const submit = () => {
+  const submit = async () => {
     if (!form.name || !form.email || !form.message) return;
-    const subject = encodeURIComponent(`LaunchProof Contact: Message from ${form.name}`);
-    const body = encodeURIComponent(
-      `Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`
-    );
-    window.location.href = `mailto:eshwarsg2000@gmail.com?subject=${subject}&body=${body}`;
+    setSending(true);
+    await sendContactEmail(form.name, form.email, form.message);
+    setSending(false);
     setSent(true);
   };
 
@@ -1965,11 +2108,11 @@ function ContactPage() {
                   </div>
                   <button
                     className="btn-primary"
-                    style={{ width: "100%", justifyContent: "center" }}
-                    disabled={!form.name || !form.email || !form.message}
+                    style={{ width: "100%", justifyContent: "center", opacity: sending ? 0.7 : 1 }}
+                    disabled={!form.name || !form.email || !form.message || sending}
                     onClick={submit}
                   >
-                    Send Message →
+                    {sending ? "Sending…" : "Send Message →"}
                   </button>
                 </>
               )}
@@ -1984,6 +2127,7 @@ function ContactPage() {
 // ─── Root ─────────────────────────────────────────────────────────────────────
 export default function Page() {
   const [activePage, setActivePage] = useState<Page>("home");
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
   const regRef = useRef<HTMLDivElement>(null);
 
   // Inject CSS once
@@ -1995,9 +2139,27 @@ export default function Page() {
       style.textContent = GLOBAL_CSS;
       document.head.appendChild(style);
     }
-    return () => {
-      // leave styles for performance
-    };
+  }, []);
+
+  // Detect Stripe redirect back with ?payment=success
+  // In your Stripe dashboard → Payment Link → After payment → set redirect URL to:
+  // https://YOUR-SITE.com/?payment=success
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("payment") === "success") {
+      setPaymentSuccess(true);
+      setActivePage("competition");
+
+      // Recover registration data saved before Stripe redirect
+      const savedData = loadRegFromSession();
+      if (savedData) {
+        sendPaymentConfirmedEmail(savedData); // Email 3: PAID & CONFIRMED
+        clearRegFromSession();
+      }
+
+      // Clean the URL so refreshing doesn't re-trigger
+      window.history.replaceState({}, "", window.location.pathname);
+    }
   }, []);
 
   const scrollToReg = () => {
@@ -2011,6 +2173,34 @@ export default function Page() {
   return (
     <>
       <NavBar activePage={activePage} setPage={setPage} scrollToReg={scrollToReg} />
+
+      {/* Payment success banner */}
+      {paymentSuccess && (
+        <div style={{
+          position: "fixed",
+          top: "var(--nav-h)",
+          left: 0, right: 0,
+          zIndex: 200,
+          background: "rgba(22,163,74,0.95)",
+          backdropFilter: "blur(8px)",
+          padding: "14px 24px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 12,
+          fontSize: "0.95rem",
+          fontWeight: 600,
+          color: "#fff",
+          borderBottom: "1px solid rgba(255,255,255,0.15)",
+        }}>
+          <span style={{ fontSize: "1.2rem" }}>✅</span>
+          Payment confirmed! Your team is registered for LaunchProof. Check your email for details.
+          <button
+            onClick={() => setPaymentSuccess(false)}
+            style={{ marginLeft: 16, background: "rgba(255,255,255,0.2)", border: "none", color: "#fff", borderRadius: 6, padding: "4px 10px", cursor: "pointer", fontWeight: 700 }}
+          >✕</button>
+        </div>
+      )}
 
       {activePage === "home" && <HomePage setPage={setPage} scrollToReg={scrollToReg} />}
       {activePage === "competition" && <CompetitionPage regRef={regRef as React.RefObject<HTMLDivElement>} />}
