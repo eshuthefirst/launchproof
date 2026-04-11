@@ -1883,7 +1883,13 @@ function ContactPage() {
   const [sent, setSent] = useState(false);
 
   const submit = () => {
-    if (form.name && form.email && form.message) setSent(true);
+    if (!form.name || !form.email || !form.message) return;
+    const subject = encodeURIComponent(`LaunchProof Contact: Message from ${form.name}`);
+    const body = encodeURIComponent(
+      `Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`
+    );
+    window.location.href = `mailto:eshwarsg2000@gmail.com?subject=${subject}&body=${body}`;
+    setSent(true);
   };
 
   return (
