@@ -1308,16 +1308,19 @@ function buildMembersText(data: RegistrationData): string {
   ).join("\n");
 }
 
-// Email 1 – contact form message
+// ─── Contact form → Formspree (no setup needed beyond account) ───────────────
+// 1. Go to https://formspree.io → sign up free → New Form → copy your endpoint
+// 2. Replace the URL below with yours: https://formspree.io/f/YOUR_CODE
+const FORMSPREE_CONTACT = "https://formspree.io/f/mqewkbdd";
+
 async function sendContactEmail(name: string, email: string, message: string) {
   try {
-    await loadEmailJS();
-    await (window as any).emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TMPL_CONTACT, {
-      from_name: name,
-      from_email: email,
-      message,
+    await fetch(FORMSPREE_CONTACT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({ name, email, message }),
     });
-  } catch (err) { console.error("EmailJS contact error:", err); }
+  } catch (err) { console.error("Formspree error:", err); }
 }
 
 // Email 2 – new registration (sent when they click "Proceed to Payment")
