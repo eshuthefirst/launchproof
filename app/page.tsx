@@ -21,7 +21,7 @@ interface RegistrationData {
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 const STRIPE_LINK = "https://YOUR-STRIPE-LINK-HERE";
-const APPLY_FORM_LINK = "https://YOUR-GOOGLE-FORM-LINK-HERE";
+const APPLY_FORM_LINK = "https://forms.gle/Kiu1e5sYChzGToEw5";
 
 // ─── Styles (injected once) ───────────────────────────────────────────────────
 const GLOBAL_CSS = `
@@ -2002,22 +2002,119 @@ function TeamPage() {
       <div className="divider" />
 
       {/* Join Team */}
-      <section style={{ padding: "80px 0", background: "var(--bg2)" }}>
-        <div className="container" style={{ textAlign: "center" }}>
-          <div className="section-label" style={{ justifyContent: "center" }}>Get Involved</div>
-          <h2 className="section-title">Want to Join Our Team?</h2>
-          <p className="section-desc" style={{ margin: "0 auto 32px" }}>
-            We are always looking for motivated students to help organize and grow LaunchProof. Join the executive team and shape the future of the competition.
+      <section style={{ padding: "100px 0", background: "var(--bg)", position: "relative", overflow: "hidden" }}>
+        {/* background glow */}
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(59,130,246,0.13) 0%, transparent 70%)",
+          pointerEvents: "none",
+        }} />
+        <div style={{
+          position: "absolute", inset: 0,
+          backgroundImage: "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
+          backgroundSize: "50px 50px",
+          maskImage: "radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 70%)",
+          pointerEvents: "none",
+        }} />
+
+        <div className="container" style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
+          <div style={{
+            display: "inline-flex", alignItems: "center", gap: 8,
+            padding: "6px 16px",
+            background: "rgba(59,130,246,0.15)",
+            border: "1px solid rgba(59,130,246,0.35)",
+            borderRadius: 99,
+            fontSize: "0.78rem", fontWeight: 700,
+            color: "var(--blue-light)",
+            letterSpacing: "0.08em", textTransform: "uppercase",
+            marginBottom: 24,
+          }}>
+            🎯 Now Recruiting
+          </div>
+
+          <h2 style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(2rem, 5vw, 3.5rem)",
+            fontWeight: 800,
+            letterSpacing: "-0.03em",
+            lineHeight: 1.1,
+            marginBottom: 16,
+          }}>
+            Want to Join the<br />
+            <span style={{
+              background: "linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}>Executive Team?</span>
+          </h2>
+
+          <p style={{ fontSize: "1.05rem", color: "var(--grey)", maxWidth: 520, margin: "0 auto 20px", lineHeight: 1.7 }}>
+            We're looking for motivated, ambitious high school students to help organize and grow LaunchProof. Shape the future of student entrepreneurship.
           </p>
+
+          {/* Perks row */}
+          <div style={{
+            display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 12,
+            marginBottom: 40,
+          }}>
+            {[
+              "📋 Real Organizing Experience",
+              "🏆 Leadership Role",
+              "🤝 Network with Students",
+              "📜 Certificate & Recognition",
+            ].map((perk, i) => (
+              <div key={i} style={{
+                padding: "8px 16px",
+                background: "var(--bg2)",
+                border: "1px solid var(--border)",
+                borderRadius: 99,
+                fontSize: "0.85rem",
+                fontWeight: 500,
+                color: "var(--grey)",
+              }}>
+                {perk}
+              </div>
+            ))}
+          </div>
+
+          {/* BIG apply button */}
           <a
             href={APPLY_FORM_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-primary"
-            style={{ fontSize: "1rem", padding: "14px 36px", display: "inline-flex" }}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 10,
+              padding: "18px 48px",
+              background: "var(--blue)",
+              color: "#fff",
+              borderRadius: 12,
+              fontSize: "1.1rem",
+              fontWeight: 700,
+              textDecoration: "none",
+              boxShadow: "0 0 40px rgba(59,130,246,0.4)",
+              transition: "all 0.22s cubic-bezier(.4,0,.2,1)",
+              animation: "pulse-ring 2.5s ease infinite",
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)";
+              (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 50px rgba(59,130,246,0.6)";
+              (e.currentTarget as HTMLElement).style.animation = "none";
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+              (e.currentTarget as HTMLElement).style.boxShadow = "0 0 40px rgba(59,130,246,0.4)";
+              (e.currentTarget as HTMLElement).style.animation = "pulse-ring 2.5s ease infinite";
+            }}
           >
             Apply for Executive Team →
           </a>
+
+          <div style={{ marginTop: 14, fontSize: "0.82rem", color: "var(--grey-dim)" }}>
+            Applications reviewed on a rolling basis · Takes 2 minutes
+          </div>
         </div>
       </section>
     </div>
