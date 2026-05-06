@@ -492,7 +492,7 @@ function HomePage({ setPage }: { setPage: (p: Page) => void }) {
               </div>
               {[
                 { title: "Teams of 3–5", sub: "Collaborate with your peers" },
-                { title: "$750 Prize Pool", sub: "1st: $400 · 2nd: $250 · 3rd: $100" },
+                { title: "Certificates & Rewards", sub: "1st Place Gift Card · Certificates for All Winners" },
                 { title: "Prototype Required", sub: "Software, hardware, or CAD" },
                 { title: "6-Min Video", sub: "Max 6:20 presentation" },
                 { title: "Real User Feedback", sub: "QR-linked user validation clip" },
@@ -529,7 +529,7 @@ function HomePage({ setPage }: { setPage: (p: Page) => void }) {
           <div className="highlight-strip">
             {[
               { num: "3–5", label: "Students per Team" },
-              { num: "$750", label: "Total Prize Pool" },
+              { num: "$100", label: "1st Place Gift Card" },
               { num: "6 min", label: "Presentation Limit" },
               { num: "Free", label: "Registration" },
               { num: "100%", label: "Execution Focused" },
@@ -671,29 +671,84 @@ function CompetitionPage() {
 
       <div className="divider" />
 
+      {/* ─── PRIZES SECTION ─── */}
       <section className="section">
         <div className="container">
           <div style={{ textAlign: "center", marginBottom: 40 }}>
-            <div className="section-label" style={{ justifyContent: "center" }}>Prizes</div>
-            <h2 className="section-title">$750 Prize Pool</h2>
+            <div className="section-label" style={{ justifyContent: "center" }}>Recognition & Rewards</div>
+            <h2 className="section-title">What You Can Win</h2>
+            <p className="section-desc" style={{ margin: "0 auto 12px" }}>
+              Top teams are recognized for their hard work, creativity, and execution.
+            </p>
           </div>
-          <div className="grid-4" style={{ maxWidth: 760, margin: "0 auto 24px" }}>
+
+          {/* 1st Place — featured */}
+          <div style={{ maxWidth: 480, margin: "0 auto 24px" }}>
+            <div
+              className="prize-card first"
+              style={{
+                padding: "36px 32px",
+                background: "linear-gradient(145deg, rgba(59,130,246,0.12) 0%, var(--bg2) 100%)",
+                borderColor: "rgba(59,130,246,0.5)",
+                boxShadow: "0 0 40px rgba(59,130,246,0.1)",
+              }}
+            >
+              <div style={{ fontSize: "2rem", marginBottom: 10 }}>🏆</div>
+              <div style={{ fontFamily: "var(--font-display)", fontSize: "1.1rem", fontWeight: 800, marginBottom: 6 }}>1st Place</div>
+              <div className="prize-amount" style={{ fontSize: "2.6rem", marginBottom: 8 }}>$100 Gift Card</div>
+              <div style={{ fontSize: "0.875rem", color: "var(--grey)", lineHeight: 1.6 }}>
+                The top team takes home a $100 gift card along with an official 1st Place Certificate of Achievement.
+              </div>
+            </div>
+          </div>
+
+          {/* 2nd, 3rd, People's Choice */}
+          <div className="grid-3" style={{ maxWidth: 760, margin: "0 auto 32px" }}>
             {[
-              { rank: "1st", amount: "$400", place: "1st Place" },
-              { rank: "2nd", amount: "$250", place: "2nd Place" },
-              { rank: "3rd", amount: "$100", place: "3rd Place" },
-              { rank: "Best", amount: "Award", place: "Best Prototype" },
+              {
+                emoji: "🥈",
+                place: "2nd Place",
+                reward: "Certificate",
+                desc: "Official 2nd Place Certificate of Achievement awarded to the runner-up team.",
+              },
+              {
+                emoji: "🥉",
+                place: "3rd Place",
+                reward: "Certificate",
+                desc: "Official 3rd Place Certificate of Achievement for the third-place finishers.",
+              },
+              {
+                emoji: "⭐",
+                place: "People's Choice",
+                reward: "Certificate",
+                desc: "A special certificate recognizing the team that stood out to voters and the community.",
+              },
             ].map((p, i) => (
-              <div className={`prize-card${i === 0 ? " first" : ""}`} key={i}>
-                <div className="prize-rank" style={{ fontSize: "1rem", fontWeight: 700, color: "var(--grey)", marginBottom: 8 }}>{p.rank}</div>
-                <div className="prize-amount">{p.amount}</div>
-                <div className="prize-place">{p.place}</div>
+              <div className="prize-card" key={i} style={{ padding: "28px 20px" }}>
+                <div style={{ fontSize: "1.8rem", marginBottom: 10 }}>{p.emoji}</div>
+                <div style={{ fontFamily: "var(--font-display)", fontSize: "0.95rem", fontWeight: 800, marginBottom: 6, color: "var(--white)" }}>{p.place}</div>
+                <div style={{ fontFamily: "var(--font-display)", fontSize: "1.4rem", fontWeight: 800, color: "var(--blue-light)", marginBottom: 10 }}>{p.reward}</div>
+                <div style={{ fontSize: "0.82rem", color: "var(--grey)", lineHeight: 1.6 }}>{p.desc}</div>
               </div>
             ))}
           </div>
+
+          {/* Best Prototype */}
+          <div style={{ maxWidth: 480, margin: "0 auto 32px" }}>
+            <div className="prize-card" style={{ padding: "24px 28px", display: "flex", alignItems: "center", gap: 20, textAlign: "left" }}>
+              <div style={{ fontSize: "2rem", flexShrink: 0 }}>🔧</div>
+              <div>
+                <div style={{ fontFamily: "var(--font-display)", fontSize: "0.95rem", fontWeight: 800, marginBottom: 4 }}>Best Prototype Award</div>
+                <div style={{ fontSize: "0.85rem", color: "var(--grey)", lineHeight: 1.6 }}>
+                  Awarded to the team with the most impressive, well-built prototype — regardless of overall placement.
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div style={{ textAlign: "center", maxWidth: 520, margin: "0 auto" }}>
             <p style={{ fontSize: "0.85rem", color: "var(--grey)", fontStyle: "italic" }}>
-              Winning teams also receive certificates. Idea recognition certificates may be awarded to top teams. Select projects may be considered for funding based on their potential. Funding is not guaranteed, including for winning teams.
+              All winning teams receive official certificates. Idea recognition certificates may be awarded to top-performing teams. Select projects may be considered for funding based on their potential — this is not guaranteed.
             </p>
           </div>
         </div>
@@ -812,11 +867,12 @@ function FAQPage() {
                   { k: "Video Platform", v: "YouTube (Unlisted or Public)" },
                   { k: "User Feedback Clip", v: "Max 1 minute, via QR code" },
                   { k: "Eligibility", v: "All high school students" },
-                  { k: "1st Place Prize", v: "$400 CAD" },
-                  { k: "2nd Place Prize", v: "$250 CAD" },
-                  { k: "3rd Place Prize", v: "$100 CAD" },
+                  { k: "1st Place", v: "$100 Gift Card + Certificate" },
+                  { k: "2nd Place", v: "Certificate" },
+                  { k: "3rd Place", v: "Certificate" },
+                  { k: "People's Choice", v: "Certificate" },
                 ].map((r, i) => (
-                  <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "13px 20px", borderBottom: i < 9 ? "1px solid var(--border)" : "none", fontSize: "0.875rem" }}>
+                  <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "13px 20px", borderBottom: i < 10 ? "1px solid var(--border)" : "none", fontSize: "0.875rem" }}>
                     <span style={{ color: "var(--grey)" }}>{r.k}</span>
                     <span style={{ fontWeight: 600 }}>{r.v}</span>
                   </div>
@@ -833,12 +889,12 @@ function FAQPage() {
 // ─── Team Page ────────────────────────────────────────────────────────────────
 function TeamPage() {
   const executives = [
-    { initials: "LP", name: "Placeholder Name", role: "Director", tag: "Director" },
-    { initials: "LP", name: "Placeholder Name", role: "Co-Director", tag: "Co-Director" },
-    { initials: "EX", name: "Placeholder Name", role: "Tech Lead", tag: "Executive" },
-    { initials: "EX", name: "Placeholder Name", role: "Marketing", tag: "Executive" },
-    { initials: "EX", name: "Placeholder Name", role: "Marketing", tag: "Executive" },
-    { initials: "EX", name: "Placeholder Name", role: "General Executive", tag: "Executive" },
+    { initials: "ES", name: "Eshwar Sai Ganipineni", role: "Founder & Director", tag: "Director" },
+    { initials: "HV", name: "Hari Vemuri", role: "Co-Director", tag: "Co-Director" },
+    { initials: "AS", name: "Ajay Sekar", role: "General Executive", tag: "Executive" },
+    { initials: "EX", name: "TBA", role: "Tech Lead", tag: "Executive" },
+    { initials: "EX", name: "TBA", role: "Marketing", tag: "Executive" },
+    { initials: "EX", name: "TBA", role: "General Executive", tag: "Executive" },
   ];
 
   return (
@@ -866,11 +922,12 @@ function TeamPage() {
                     background: p.tag === "Director" || p.tag === "Co-Director"
                       ? "linear-gradient(135deg, #1e3a8a, #3B82F6)"
                       : "linear-gradient(135deg, #1e3a6e, #60A5FA)",
+                    opacity: p.name === "TBA" ? 0.5 : 1,
                   }}
                 >
                   {p.initials}
                 </div>
-                <div className="team-name">{p.name}</div>
+                <div className="team-name" style={{ color: p.name === "TBA" ? "var(--grey)" : "var(--white)" }}>{p.name}</div>
                 <div className="team-role">{p.role}</div>
                 <div style={{ marginTop: 10 }}>
                   <span
