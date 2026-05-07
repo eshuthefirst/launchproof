@@ -2,11 +2,12 @@
 import { useState, useEffect, useRef } from "react";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-type Page = "home" | "competition" | "faq" | "team" | "contact";
+type Page = "home" | "competition" | "faq" | "team" | "contact" | "submission";
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 const REGISTER_FORM_LINK = "https://forms.gle/4Lfgx5eu3jpr5Kuy8";
 const APPLY_FORM_LINK = "https://forms.gle/Kiu1e5sYChzGToEw5";
+const SUBMISSION_FORM_LINK = "https://forms.gle/X5U4EWSTYmmhgxpYA";
 
 // ─── Styles ──────────────────────────────────────────────────────────────────
 const GLOBAL_CSS = `
@@ -322,6 +323,7 @@ function NavBar({
     { label: "Competition", page: "competition" },
     { label: "FAQ & Timeline", page: "faq" },
     { label: "Team & Organizers", page: "team" },
+    { label: "Submission", page: "submission" },
     { label: "Contact & Info", page: "contact" },
   ];
   const nav = (p: Page) => {
@@ -408,9 +410,9 @@ function Footer({
           </div>
         </div>
         <div className="footer-links">
-          {(["home","competition","faq","team","contact"] as Page[]).map((p) => (
+          {(["home","competition","faq","team","submission","contact"] as Page[]).map((p) => (
             <div key={p} className="footer-link" onClick={() => nav(p)}>
-              {p === "home" ? "Home" : p === "competition" ? "Competition" : p === "faq" ? "FAQ & Timeline" : p === "team" ? "Team" : "Contact"}
+              {p === "home" ? "Home" : p === "competition" ? "Competition" : p === "faq" ? "FAQ & Timeline" : p === "team" ? "Team" : p === "submission" ? "Submission" : "Contact"}
             </div>
           ))}
         </div>
@@ -841,10 +843,11 @@ function FAQPage() {
               </p>
               <div className="timeline">
                 {[
-                  { date: "Coming Soon", title: "Registration Opens", desc: "Teams can register via the Google Form." },
-                  { date: "Coming Soon", title: "Submission Deadline", desc: "All video presentations must be submitted via the Google Form by 11:59 PM." },
-                  { date: "Coming Soon", title: "Judging Period", desc: "The LaunchProof executive team reviews all submissions." },
-                  { date: "Coming Soon", title: "Results Announcement", desc: "Winners are announced and prizes are distributed." },
+                  { date: "May 8, 2025", title: "Registration Opens", desc: "Teams can register via the Google Form." },
+                  { date: "May 15, 2025", title: "Registration Closes", desc: "Last day to register your team. Make sure your team is locked in." },
+                  { date: "June 15, 2025", title: "Submission Deadline", desc: "All video presentations must be submitted via the Google Form by 11:59 PM." },
+                  { date: "June 15 – July 1, 2025", title: "Judging Period", desc: "The LaunchProof executive team reviews all submissions. Note: judging may be delayed due to exam season." },
+                  { date: "Unknown", title: "Results Announcement", desc: "Winners are announced and certificates are distributed. Results will be revealed following the conclusion of the judging period." },
                 ].map((t, i) => (
                   <div className="timeline-item" key={i}>
                     <div className="timeline-dot" />
@@ -860,19 +863,13 @@ function FAQPage() {
               <h2 className="section-title">At a Glance</h2>
               <div className="card" style={{ padding: "0", overflow: "hidden" }}>
                 {[
-                  { k: "Team Size", v: "3–5 students" },
-                  { k: "Registration", v: "Free" },
-                  { k: "Prototype Formats", v: "Software / Hardware / CAD" },
-                  { k: "Video Duration", v: "Max 6:20 (6 min + 20s grace)" },
-                  { k: "Video Platform", v: "YouTube (Unlisted or Public)" },
-                  { k: "User Feedback Clip", v: "Max 1 minute, via QR code" },
-                  { k: "Eligibility", v: "All high school students" },
-                  { k: "1st Place", v: "$100 Gift Card + Certificate" },
-                  { k: "2nd Place", v: "Certificate" },
-                  { k: "3rd Place", v: "Certificate" },
-                  { k: "People's Choice", v: "Certificate" },
+                  { k: "Registration Opens", v: "May 8, 2025" },
+                  { k: "Registration Closes", v: "May 15, 2025" },
+                  { k: "Submission Deadline", v: "June 15, 2025" },
+                  { k: "Judging Period", v: "June 15 – July 1, 2025" },
+                  { k: "Results", v: "After judging period" },
                 ].map((r, i) => (
-                  <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "13px 20px", borderBottom: i < 10 ? "1px solid var(--border)" : "none", fontSize: "0.875rem" }}>
+                  <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "13px 20px", borderBottom: i < 4 ? "1px solid var(--border)" : "none", fontSize: "0.875rem" }}>
                     <span style={{ color: "var(--grey)" }}>{r.k}</span>
                     <span style={{ fontWeight: 600 }}>{r.v}</span>
                   </div>
@@ -996,7 +993,141 @@ function TeamPage() {
             Apply for Executive Team
           </a>
           <div style={{ marginTop: 14, fontSize: "0.82rem", color: "var(--grey-dim)" }}>
-            Applications reviewed on a rolling basis · Takes 2 minutes
+            Applications reviewed on a rolling basis · Takes 15–20 minutes
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ─── Submission Page ──────────────────────────────────────────────────────────
+function SubmissionPage() {
+  return (
+    <div className="page">
+      <section style={{ padding: "60px 0 0", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(59,130,246,0.14) 0%, transparent 70%)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)", backgroundSize: "60px 60px", maskImage: "radial-gradient(ellipse 80% 60% at 50% 0%, black 0%, transparent 70%)", pointerEvents: "none" }} />
+        <div className="container" style={{ position: "relative", zIndex: 1 }}>
+          <div className="section-label">Submit Your Work</div>
+          <h1 className="section-title" style={{ fontSize: "clamp(2rem,5vw,3.5rem)", marginBottom: 8 }}>
+            Final Submission
+          </h1>
+          <p className="section-desc" style={{ marginBottom: 48 }}>
+            Ready to submit? Make sure everything is in order before you hit that button.
+          </p>
+        </div>
+      </section>
+
+      <section className="section-sm">
+        <div className="container">
+          {/* Checklist */}
+          <div className="two-col" style={{ alignItems: "start" }}>
+            <div>
+              <div className="section-label">Before You Submit</div>
+              <h2 className="section-title" style={{ fontSize: "clamp(1.4rem,3vw,2rem)", marginBottom: 20 }}>Submission Checklist</h2>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {[
+                  { icon: "🎬", label: "Video uploaded to YouTube", sub: "Set to Unlisted or Public. Max 6 minutes (6:20 with grace period)." },
+                  { icon: "🔗", label: "YouTube link ready to paste", sub: "Copy the full video URL from YouTube." },
+                  { icon: "📋", label: "All 6 required questions addressed", sub: "Concept, audience, function, differentiation, value, and limitation." },
+                  { icon: "🛠️", label: "Prototype clearly demonstrated", sub: "Your prototype must be visible and explained in the video." },
+                  { icon: "📱", label: "User feedback video included", sub: "QR code in your slides linking to a max 1-minute feedback clip." },
+                  { icon: "👥", label: "Team details on hand", sub: "You'll need team member names and contact info for the form." },
+                ].map((item, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      display: "flex", alignItems: "flex-start", gap: 14,
+                      padding: "16px 20px",
+                      background: "var(--bg2)", border: "1px solid var(--border)", borderRadius: "var(--radius)",
+                      transition: "border-color var(--transition)",
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(59,130,246,0.3)")}
+                    onMouseLeave={e => (e.currentTarget.style.borderColor = "var(--border)")}
+                  >
+                    <div style={{ fontSize: "1.3rem", flexShrink: 0, marginTop: 2 }}>{item.icon}</div>
+                    <div>
+                      <div style={{ fontWeight: 700, fontSize: "0.9rem", marginBottom: 3 }}>{item.label}</div>
+                      <div style={{ fontSize: "0.82rem", color: "var(--grey)", lineHeight: 1.5 }}>{item.sub}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* CTA Card */}
+            <div>
+              <div
+                style={{
+                  background: "linear-gradient(145deg, rgba(59,130,246,0.1) 0%, var(--bg2) 100%)",
+                  border: "1px solid rgba(59,130,246,0.35)",
+                  borderRadius: "var(--radius-lg)",
+                  padding: "40px 32px",
+                  textAlign: "center",
+                  boxShadow: "0 0 60px rgba(59,130,246,0.08)",
+                  position: "sticky",
+                  top: "calc(var(--nav-h) + 24px)",
+                }}
+              >
+                <div style={{ fontSize: "3rem", marginBottom: 16 }}>🚀</div>
+                <h2 style={{ fontFamily: "var(--font-display)", fontSize: "1.6rem", fontWeight: 800, letterSpacing: "-0.03em", marginBottom: 12 }}>
+                  Ready to Submit?
+                </h2>
+                <p style={{ fontSize: "0.9rem", color: "var(--grey)", lineHeight: 1.7, marginBottom: 28 }}>
+                  Click the button below to open the official LaunchProof submission form. Make sure your YouTube link is ready before you start.
+                </p>
+                <a
+                  href={SUBMISSION_FORM_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
+                    padding: "16px 32px", background: "var(--blue)", color: "#fff",
+                    borderRadius: "var(--radius)", fontSize: "1.05rem", fontWeight: 700,
+                    textDecoration: "none", width: "100%", boxSizing: "border-box",
+                    boxShadow: "0 4px 30px rgba(59,130,246,0.4)",
+                    transition: "all var(--transition)",
+                    animation: "pulse-ring 2.5s ease infinite",
+                  }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLElement).style.background = "var(--blue-light)";
+                    (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
+                    (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 40px rgba(59,130,246,0.55)";
+                    (e.currentTarget as HTMLElement).style.animation = "none";
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLElement).style.background = "var(--blue)";
+                    (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+                    (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 30px rgba(59,130,246,0.4)";
+                    (e.currentTarget as HTMLElement).style.animation = "pulse-ring 2.5s ease infinite";
+                  }}
+                >
+                  Submit Your Work →
+                </a>
+                <div style={{ marginTop: 16, fontSize: "0.8rem", color: "var(--grey-dim)" }}>
+                  Submission deadline: <strong style={{ color: "var(--grey)" }}>June 15, 2025 · 11:59 PM</strong>
+                </div>
+
+                {/* Divider */}
+                <div style={{ height: 1, background: "var(--border)", margin: "28px 0" }} />
+
+                <div style={{ textAlign: "left" }}>
+                  <div style={{ fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--blue)", marginBottom: 12 }}>Key Reminders</div>
+                  {[
+                    "Video must be on YouTube (Unlisted or Public)",
+                    "Max 6 minutes — 6:20 with grace period",
+                    "Include QR code linking to user feedback clip",
+                    "All 6 questions must be answered",
+                  ].map((note, i) => (
+                    <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8, marginBottom: 8, fontSize: "0.82rem", color: "var(--grey)" }}>
+                      <span style={{ color: "var(--blue)", fontWeight: 800, flexShrink: 0, marginTop: 1 }}>·</span>
+                      {note}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -1046,7 +1177,7 @@ function ContactPage() {
                   <div className="contact-icon" style={{ fontSize: "1rem", fontWeight: 700, color: "var(--blue-light)" }}>@</div>
                   <div>
                     <div style={{ fontWeight: 700, fontSize: "0.95rem", marginBottom: 2 }}>Email Us</div>
-                    <div style={{ fontSize: "0.875rem", color: "var(--blue-light)" }}>contact@launchproof.ca</div>
+                    <div style={{ fontSize: "0.875rem", color: "var(--blue-light)" }}>eshwarsg2000@gmail.com</div>
                   </div>
                 </div>
               </div>
@@ -1131,6 +1262,7 @@ export default function Page() {
       {activePage === "competition" && <CompetitionPage />}
       {activePage === "faq" && <FAQPage />}
       {activePage === "team" && <TeamPage />}
+      {activePage === "submission" && <SubmissionPage />}
       {activePage === "contact" && <ContactPage />}
       <Footer setPage={setPage} />
     </>
