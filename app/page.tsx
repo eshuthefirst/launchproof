@@ -516,7 +516,7 @@ function CompetitionPage() {
             </div>
           </div>
           <div style={{ textAlign: "center", maxWidth: 520, margin: "0 auto" }}>
-            <p style={{ fontSize: "0.85rem", color: "var(--grey)", fontStyle: "italic" }}>All winning teams receive official certificates. Select projects may be considered for funding — not guaranteed.</p>
+            <p style={{ fontSize: "0.85rem", color: "var(--grey)", fontStyle: "italic" }}>All winning teams receive official certificates.</p>
           </div>
         </div>
       </section>
