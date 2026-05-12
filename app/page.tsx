@@ -111,26 +111,25 @@ nav {
 .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(59,130,246,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 80% 80%, rgba(96,165,250,0.08) 0%, transparent 60%); pointer-events: none; }
 .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 70%); pointer-events: none; }
 .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; background: var(--blue-dim); border: 1px solid rgba(59,130,246,0.3); border-radius: 99px; font-size: 0.78rem; font-weight: 600; color: var(--blue-light); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 24px; }
-.hero h1 { font-family: var(--font-display); font-size: clamp(3.5rem, 10vw, 7rem); font-weight: 800; line-height: 0.95; letter-spacing: -0.04em; margin-bottom: 20px; }
+.hero h1 { font-family: var(--font-display); font-size: clamp(2.8rem, 8vw, 5.5rem); font-weight: 800; line-height: 1; letter-spacing: -0.04em; margin-bottom: 20px; word-break: break-word; }
 .hero h1 .accent { background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .hero-tagline { font-family: var(--font-display); font-size: clamp(1rem, 3vw, 1.5rem); font-weight: 600; color: var(--grey); margin-bottom: 12px; letter-spacing: 0.02em; }
 .hero-sub { font-size: clamp(0.9rem, 2vw, 1.05rem); color: var(--grey-dim); max-width: 460px; margin: 0 auto 36px; line-height: 1.6; }
 
 /* PARTICIPANT PACKAGE BANNER */
 .pkg-banner {
-  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;
-  padding: 16px 22px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+  padding: 22px 28px; text-align: center;
   background: linear-gradient(135deg, rgba(59,130,246,0.13) 0%, rgba(96,165,250,0.06) 100%);
   border: 1px solid rgba(59,130,246,0.42); border-radius: var(--radius-lg);
   text-decoration: none; animation: pkg-pulse 3s ease infinite;
   transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 .pkg-banner:hover { border-color: rgba(59,130,246,0.75); transform: translateY(-2px); box-shadow: 0 8px 36px rgba(59,130,246,0.3); animation: none; }
-.pkg-banner-left { display: flex; align-items: center; gap: 14px; }
-.pkg-banner-icon { width: 42px; height: 42px; background: rgba(59,130,246,0.18); border: 1px solid rgba(59,130,246,0.4); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
-.pkg-banner-title { font-family: var(--font-display); font-size: 0.98rem; font-weight: 800; color: var(--white); margin-bottom: 2px; }
-.pkg-banner-sub { font-size: 0.8rem; color: var(--grey); }
-.pkg-banner-cta { padding: 8px 18px; background: var(--blue); color: #fff; border-radius: 8px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; flex-shrink: 0; transition: background var(--transition); }
+.pkg-banner-left { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.pkg-banner-title { font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--white); }
+.pkg-banner-sub { font-size: 0.82rem; color: var(--grey); }
+.pkg-banner-cta { padding: 9px 28px; background: var(--blue); color: #fff; border-radius: 8px; font-size: 0.875rem; font-weight: 700; transition: background var(--transition); }
 .pkg-banner:hover .pkg-banner-cta { background: var(--blue-light); }
 
 /* BUTTONS */
@@ -231,11 +230,8 @@ function PkgBanner() {
   return (
     <a href={PARTICIPANT_PACKAGE_LINK} target="_blank" rel="noopener noreferrer" className="pkg-banner">
       <div className="pkg-banner-left">
-        <div className="pkg-banner-icon">📋</div>
-        <div>
-          <div className="pkg-banner-title">Participant Package</div>
-          <div className="pkg-banner-sub">Full rules, requirements, judging criteria &amp; submission guide — read before you start</div>
-        </div>
+        <div className="pkg-banner-title">Participant Package</div>
+        <div className="pkg-banner-sub">Full rules, requirements, judging criteria &amp; submission guide — read before you start</div>
       </div>
       <div className="pkg-banner-cta">Read Now →</div>
     </a>
@@ -262,8 +258,8 @@ function NavBar({ activePage, setPage }: { activePage: Page; setPage: (p: Page) 
           {links.map((l) => (
             <li key={l.page} className={`nav-link${activePage === l.page ? " active" : ""}`} onClick={() => nav(l.page)}>{l.label}</li>
           ))}
-          <li><a className="nav-pkg" href={PARTICIPANT_PACKAGE_LINK} target="_blank" rel="noopener noreferrer">📋 Package</a></li>
-          <li><a className="btn-register-nav" href={REGISTER_FORM_LINK} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>Register</a></li>
+          <li><a className="nav-pkg" href={PARTICIPANT_PACKAGE_LINK} target="_blank" rel="noopener noreferrer" style={{ marginLeft: 8 }}>Package</a></li>
+          <li style={{ marginLeft: 4 }}><a className="btn-register-nav" href={REGISTER_FORM_LINK} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>Register</a></li>
         </ul>
         <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}><span /><span /><span /></div>
       </nav>
@@ -272,7 +268,7 @@ function NavBar({ activePage, setPage }: { activePage: Page; setPage: (p: Page) 
           {links.map((l) => (
             <div key={l.page} className={`mobile-link${activePage === l.page ? " active" : ""}`} onClick={() => nav(l.page)}>{l.label}</div>
           ))}
-          <a className="mobile-pkg" href={PARTICIPANT_PACKAGE_LINK} target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)}>📋 Participant Package</a>
+          <a className="mobile-pkg" href={PARTICIPANT_PACKAGE_LINK} target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)}>Participant Package</a>
           <a className="mobile-register" href={REGISTER_FORM_LINK} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "block" }} onClick={() => setMenuOpen(false)}>Register Now</a>
         </div>
       )}
@@ -294,7 +290,7 @@ function Footer({ setPage }: { setPage: (p: Page) => void }) {
           {(["home","competition","faq","team","submission","contact"] as Page[]).map((p) => (
             <div key={p} className="footer-link" onClick={() => nav(p)}>{p === "home" ? "Home" : p === "competition" ? "Competition" : p === "faq" ? "FAQ & Timeline" : p === "team" ? "Team" : p === "submission" ? "Submission" : "Contact"}</div>
           ))}
-          <a href={PARTICIPANT_PACKAGE_LINK} target="_blank" rel="noopener noreferrer" className="footer-link" style={{ color: "var(--blue-light)" }}>📋 Participant Package</a>
+          <a href={PARTICIPANT_PACKAGE_LINK} target="_blank" rel="noopener noreferrer" className="footer-link" style={{ color: "var(--blue-light)" }}>Participant Package</a>
         </div>
         <a href={REGISTER_FORM_LINK} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ padding: "10px 22px", fontSize: "0.875rem" }}>Register Now</a>
       </div>
@@ -345,7 +341,7 @@ function HomePage({ setPage }: { setPage: (p: Page) => void }) {
               </div>
               {[
                 { title: "Teams of 3–5", sub: "Collaborate with your peers" },
-                { title: "Certificates & Rewards", sub: "1st Place Gift Card · Certificates for All Winners" },
+                { title: "Certificates & Rewards", sub: "1st Place $200 Gift Card · Certificates for All Winners" },
                 { title: "Prototype Required", sub: "Software, hardware, or CAD" },
                 { title: "6-Min Video", sub: "Max 6:20 presentation" },
                 { title: "Real User Feedback", sub: "QR-linked user validation clip" },
@@ -360,7 +356,7 @@ function HomePage({ setPage }: { setPage: (p: Page) => void }) {
               <div style={{ padding: "20px 28px", display: "flex", flexDirection: "column", gap: 10 }}>
                 <a href={REGISTER_FORM_LINK} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ width: "100%", justifyContent: "center", display: "flex" }}>Register Now</a>
                 <a href={PARTICIPANT_PACKAGE_LINK} target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "11px 20px", border: "1px solid rgba(59,130,246,0.35)", borderRadius: "var(--radius)", color: "var(--blue-light)", fontSize: "0.875rem", fontWeight: 600, textDecoration: "none", background: "transparent", transition: "all var(--transition)" }} onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(59,130,246,0.1)"; }} onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}>
-                  📋 View Participant Package
+                  View Participant Package
                 </a>
               </div>
             </div>
@@ -369,7 +365,7 @@ function HomePage({ setPage }: { setPage: (p: Page) => void }) {
           <div className="highlight-strip">
             {[
               { num: "3–5", label: "Students per Team" },
-              { num: "$100", label: "1st Place Gift Card" },
+              { num: "$200", label: "1st Place Gift Card" },
               { num: "6 min", label: "Presentation Limit" },
               { num: "Free", label: "Registration" },
               { num: "100%", label: "Execution Focused" },
@@ -389,7 +385,7 @@ function HomePage({ setPage }: { setPage: (p: Page) => void }) {
           <p className="section-desc" style={{ margin: "0 auto 32px" }}>Join LaunchProof and show the world what you can build.</p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
             <a href={REGISTER_FORM_LINK} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: "1.05rem", padding: "15px 40px" }}>Register Your Team</a>
-            <a href={PARTICIPANT_PACKAGE_LINK} target="_blank" rel="noopener noreferrer" className="btn-outline">📋 Participant Package</a>
+            <a href={PARTICIPANT_PACKAGE_LINK} target="_blank" rel="noopener noreferrer" className="btn-outline">Participant Package</a>
           </div>
         </div>
       </section>
@@ -492,7 +488,7 @@ function CompetitionPage() {
             <div className="prize-card first" style={{ padding: "36px 32px", background: "linear-gradient(145deg, rgba(59,130,246,0.12) 0%, var(--bg2) 100%)", borderColor: "rgba(59,130,246,0.5)", boxShadow: "0 0 40px rgba(59,130,246,0.1)" }}>
               <div style={{ fontSize: "2rem", marginBottom: 10 }}>🏆</div>
               <div style={{ fontFamily: "var(--font-display)", fontSize: "1.1rem", fontWeight: 800, marginBottom: 6 }}>1st Place</div>
-              <div className="prize-amount" style={{ fontSize: "2.6rem", marginBottom: 8 }}>$100 Gift Card</div>
+              <div className="prize-amount" style={{ fontSize: "2.6rem", marginBottom: 8 }}>$200 Gift Card</div>
               <div style={{ fontSize: "0.875rem", color: "var(--grey)", lineHeight: 1.6 }}>The top team takes home a $100 gift card along with an official 1st Place Certificate of Achievement.</div>
             </div>
           </div>
@@ -539,7 +535,7 @@ function CompetitionPage() {
           </div>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
             <a href={REGISTER_FORM_LINK} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: "1.05rem", padding: "15px 40px" }}>Register Your Team</a>
-            <a href={PARTICIPANT_PACKAGE_LINK} target="_blank" rel="noopener noreferrer" className="btn-outline">📋 Participant Package</a>
+            <a href={PARTICIPANT_PACKAGE_LINK} target="_blank" rel="noopener noreferrer" className="btn-outline">Participant Package</a>
           </div>
         </div>
       </section>
@@ -590,10 +586,10 @@ function FAQPage() {
               <p className="section-desc" style={{ marginBottom: 36 }}>Mark your calendar and plan accordingly.</p>
               <div className="timeline">
                 {[
-                  { date: "May 8, 2025", title: "Registration Opens", desc: "Teams can register via the Google Form." },
-                  { date: "May 15, 2025", title: "Registration Closes", desc: "Final day to register your team. Make sure your team is locked in." },
-                  { date: "June 15, 2025", title: "Submission Deadline", desc: "All video presentations must be submitted via the Google Form by 11:59 PM." },
-                  { date: "June 15 – July 1, 2025", title: "Judging Period", desc: "The LaunchProof executive team reviews all submissions. Note: judging may be delayed due to exam season." },
+                  { date: "May 13, 2025", title: "Registration Opens", desc: "Teams can register via the Google Form." },
+                  { date: "May 23, 2025", title: "Registration Closes", desc: "Final day to register your team. Make sure your team is locked in." },
+                  { date: "June 20, 2025", title: "Submission Deadline", desc: "All video presentations must be submitted via the Google Form by 11:59 PM." },
+                  { date: "June 20 – July 5, 2025", title: "Judging Period", desc: "The LaunchProof executive team reviews all submissions. Note: judging may be delayed due to exam season." },
                   { date: "Unknown", title: "Results Announced", desc: "Winners announced and certificates distributed following the conclusion of the judging period." },
                 ].map((t, i) => (
                   <div className="timeline-item" key={i}>
@@ -610,10 +606,10 @@ function FAQPage() {
               <h2 className="section-title">At a Glance</h2>
               <div className="card" style={{ padding: "0", overflow: "hidden", marginBottom: 20 }}>
                 {[
-                  { k: "Registration Opens", v: "May 8, 2025" },
-                  { k: "Registration Closes", v: "May 15, 2025" },
-                  { k: "Submission Deadline", v: "June 15, 2025" },
-                  { k: "Judging Period", v: "June 15 – July 1, 2025" },
+                  { k: "Registration Opens", v: "May 13, 2025" },
+                  { k: "Registration Closes", v: "May 23, 2025" },
+                  { k: "Submission Deadline", v: "June 20, 2025" },
+                  { k: "Judging Period", v: "June 20 – July 5, 2025" },
                   { k: "Results", v: "After judging period" },
                 ].map((r, i) => (
                   <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "13px 20px", borderBottom: i < 4 ? "1px solid var(--border)" : "none", fontSize: "0.875rem" }}>
@@ -626,7 +622,7 @@ function FAQPage() {
                 <div style={{ background: "linear-gradient(135deg, rgba(59,130,246,0.12) 0%, rgba(96,165,250,0.06) 100%)", border: "1px solid rgba(59,130,246,0.35)", borderRadius: "var(--radius-lg)", padding: "24px", transition: "all var(--transition)" }}
                   onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(59,130,246,0.65)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; }}
                   onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(59,130,246,0.35)"; (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; }}>
-                  <div style={{ fontSize: "1.5rem", marginBottom: 10 }}>📋</div>
+                  <div style={{ width: 48, height: 3, background: "linear-gradient(90deg, var(--blue), var(--blue-light))", borderRadius: 99, marginBottom: 16 }} />
                   <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "1rem", marginBottom: 6 }}>Participant Package</div>
                   <div style={{ fontSize: "0.85rem", color: "var(--grey)", lineHeight: 1.6, marginBottom: 14 }}>The complete guide — rules, requirements, judging criteria, and how to submit. Read this before you start.</div>
                   <div style={{ fontSize: "0.875rem", fontWeight: 700, color: "var(--blue-light)" }}>Open Package →</div>
@@ -646,9 +642,9 @@ function TeamPage() {
     { initials: "ES", name: "Eshwar Sai Ganipineni", role: "Founder & Director", tag: "Director" },
     { initials: "HV", name: "Hari Vemuri", role: "Co-Director", tag: "Co-Director" },
     { initials: "AS", name: "Ajay Sekar", role: "General Executive", tag: "Executive" },
+    { initials: "EX", name: "TBA", role: "Marketing Lead", tag: "Executive" },
     { initials: "EX", name: "TBA", role: "Tech Lead", tag: "Executive" },
     { initials: "EX", name: "TBA", role: "Marketing", tag: "Executive" },
-    { initials: "EX", name: "TBA", role: "General Executive", tag: "Executive" },
   ];
   return (
     <div className="page">
@@ -722,17 +718,17 @@ function SubmissionPage() {
               <h2 className="section-title" style={{ fontSize: "clamp(1.4rem,3vw,2rem)", marginBottom: 20 }}>Submission Checklist</h2>
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 {[
-                  { icon: "🎬", label: "Video uploaded to YouTube", sub: "Set to Unlisted or Public. Max 6 minutes (6:20 with grace period)." },
-                  { icon: "🔗", label: "YouTube link ready to paste", sub: "Copy the full video URL from YouTube." },
-                  { icon: "📋", label: "All 6 required questions addressed", sub: "Concept, audience, function, differentiation, value, and limitation." },
-                  { icon: "🛠️", label: "Prototype clearly demonstrated", sub: "Your prototype must be visible and explained in the video." },
-                  { icon: "📱", label: "User feedback video included", sub: "QR code in your slides linking to a max 1-minute feedback clip." },
-                  { icon: "👥", label: "Team details on hand", sub: "You'll need team member names and contact info for the form." },
+                  { label: "Video uploaded to YouTube", sub: "Set to Unlisted or Public. Max 6 minutes (6:20 with grace period)." },
+                  { label: "YouTube link ready to paste", sub: "Copy the full video URL from YouTube." },
+                  { label: "All 6 required questions addressed", sub: "Concept, audience, function, differentiation, value, and limitation." },
+                  { label: "Prototype clearly demonstrated", sub: "Your prototype must be visible and explained in the video." },
+                  { label: "User feedback video included", sub: "QR code in your slides linking to a max 1-minute feedback clip." },
+                  { label: "Team details on hand", sub: "You'll need team member names and contact info for the form." },
                 ].map((item, i) => (
                   <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 14, padding: "16px 20px", background: "var(--bg2)", border: "1px solid var(--border)", borderRadius: "var(--radius)", transition: "border-color var(--transition)" }}
                     onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(59,130,246,0.3)")}
                     onMouseLeave={e => (e.currentTarget.style.borderColor = "var(--border)")}>
-                    <div style={{ fontSize: "1.3rem", flexShrink: 0, marginTop: 2 }}>{item.icon}</div>
+                    <div style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--blue)", flexShrink: 0, marginTop: 7 }} />
                     <div><div style={{ fontWeight: 700, fontSize: "0.9rem", marginBottom: 3 }}>{item.label}</div><div style={{ fontSize: "0.82rem", color: "var(--grey)", lineHeight: 1.5 }}>{item.sub}</div></div>
                   </div>
                 ))}
@@ -740,7 +736,7 @@ function SubmissionPage() {
             </div>
             <div>
               <div style={{ background: "linear-gradient(145deg, rgba(59,130,246,0.1) 0%, var(--bg2) 100%)", border: "1px solid rgba(59,130,246,0.35)", borderRadius: "var(--radius-lg)", padding: "40px 32px", textAlign: "center", boxShadow: "0 0 60px rgba(59,130,246,0.08)", position: "sticky", top: "calc(var(--nav-h) + 24px)" }}>
-                <div style={{ fontSize: "3rem", marginBottom: 16 }}>🚀</div>
+                <div style={{ width: 56, height: 4, background: "linear-gradient(90deg, var(--blue), var(--blue-light))", borderRadius: 99, margin: "0 auto 20px" }} />
                 <h2 style={{ fontFamily: "var(--font-display)", fontSize: "1.6rem", fontWeight: 800, letterSpacing: "-0.03em", marginBottom: 12 }}>Ready to Submit?</h2>
                 <p style={{ fontSize: "0.9rem", color: "var(--grey)", lineHeight: 1.7, marginBottom: 28 }}>Click the button below to open the official LaunchProof submission form. Make sure your YouTube link is ready before you start.</p>
                 <a href={SUBMISSION_FORM_LINK} target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, padding: "16px 32px", background: "var(--blue)", color: "#fff", borderRadius: "var(--radius)", fontSize: "1.05rem", fontWeight: 700, textDecoration: "none", width: "100%", boxSizing: "border-box", boxShadow: "0 4px 30px rgba(59,130,246,0.4)", transition: "all var(--transition)", animation: "pulse-ring 2.5s ease infinite" }}
@@ -748,7 +744,7 @@ function SubmissionPage() {
                   onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "var(--blue)"; (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.animation = "pulse-ring 2.5s ease infinite"; }}>
                   Submit Your Work →
                 </a>
-                <div style={{ marginTop: 16, fontSize: "0.8rem", color: "var(--grey-dim)" }}>Submission deadline: <strong style={{ color: "var(--grey)" }}>June 15, 2025 · 11:59 PM</strong></div>
+                <div style={{ marginTop: 16, fontSize: "0.8rem", color: "var(--grey-dim)" }}>Submission deadline: <strong style={{ color: "var(--grey)" }}>June 20, 2025 · 11:59 PM</strong></div>
                 <div style={{ height: 1, background: "var(--border)", margin: "28px 0" }} />
                 <div style={{ textAlign: "left" }}>
                   <div style={{ fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--blue)", marginBottom: 12 }}>Key Reminders</div>
@@ -795,7 +791,7 @@ function ContactPage() {
                   <div><div style={{ fontWeight: 700, fontSize: "0.95rem", marginBottom: 2 }}>Email Us</div><div style={{ fontSize: "0.875rem", color: "var(--blue-light)" }}>eshwarsg2000@gmail.com</div></div>
                 </div>
                 <a href={PARTICIPANT_PACKAGE_LINK} target="_blank" rel="noopener noreferrer" className="contact-method" style={{ textDecoration: "none" }}>
-                  <div className="contact-icon">📋</div>
+                  <div className="contact-icon" style={{ fontSize: "0.75rem", fontWeight: 800, color: "var(--blue-light)", letterSpacing: "-0.03em" }}>DOC</div>
                   <div><div style={{ fontWeight: 700, fontSize: "0.95rem", marginBottom: 2 }}>Participant Package</div><div style={{ fontSize: "0.875rem", color: "var(--blue-light)" }}>Full rules, requirements &amp; submission guide →</div></div>
                 </a>
               </div>
