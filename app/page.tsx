@@ -306,7 +306,7 @@ function HomePage({ setPage }: { setPage: (p: Page) => void }) {
       <section className="hero">
         <div className="hero-bg" />
         <div className="hero-grid" />
-        <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: 680 }}>
+        <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: 680, margin: "0 auto", textAlign: "center" }}>
           <div className="hero-badge fade-up">High School Startup Competition</div>
           <h1 className="fade-up-2">Launch<span className="accent">Proof</span></h1>
           <p className="hero-tagline fade-up-3">"Build it. Prove it. Pitch it."</p>
