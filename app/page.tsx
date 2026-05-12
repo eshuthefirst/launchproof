@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 
-// ─── Types ────────────────────────────────────────────────https://launchproof-drab.vercel.app───────────────────
+// ─── Types ───────────────────────────────────────────────────────────────────
 type Page = "home" | "competition" | "faq" | "team" | "contact" | "submission";
 
 // ─── Constants ───────────────────────────────────────────────────────────────
@@ -111,7 +111,7 @@ nav {
 .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(59,130,246,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 80% 80%, rgba(96,165,250,0.08) 0%, transparent 60%); pointer-events: none; }
 .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 70%); pointer-events: none; }
 .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; background: var(--blue-dim); border: 1px solid rgba(59,130,246,0.3); border-radius: 99px; font-size: 0.78rem; font-weight: 600; color: var(--blue-light); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 24px; }
-.hero h1 { font-family: var(--font-display); font-size: clamp(2.8rem, 8vw, 5.5rem); font-weight: 800; line-height: 1; letter-spacing: -0.04em; margin-bottom: 20px; word-break: break-word; }
+.hero h1 { font-family: var(--font-display); font-size: clamp(2.4rem, 7vw, 5.5rem); font-weight: 800; line-height: 1; letter-spacing: -0.04em; margin-bottom: 20px; white-space: nowrap; }
 .hero h1 .accent { background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .hero-tagline { font-family: var(--font-display); font-size: clamp(1rem, 3vw, 1.5rem); font-weight: 600; color: var(--grey); margin-bottom: 12px; letter-spacing: 0.02em; }
 .hero-sub { font-size: clamp(0.9rem, 2vw, 1.05rem); color: var(--grey-dim); max-width: 460px; margin: 0 auto 36px; line-height: 1.6; }
@@ -516,7 +516,7 @@ function CompetitionPage() {
             </div>
           </div>
           <div style={{ textAlign: "center", maxWidth: 520, margin: "0 auto" }}>
-            <p style={{ fontSize: "0.85rem", color: "var(--grey)", fontStyle: "italic" }}>All winning teams receive official certificates.</p>
+            <p style={{ fontSize: "0.85rem", color: "var(--grey)", fontStyle: "italic" }}>All winning teams receive official certificates. Select projects may be considered for funding — not guaranteed.</p>
           </div>
         </div>
       </section>
@@ -641,7 +641,6 @@ function TeamPage() {
   const executives = [
     { initials: "ES", name: "Eshwar Sai Ganipineni", role: "Founder & Director", tag: "Director" },
     { initials: "HV", name: "Hari Vemuri", role: "Co-Director", tag: "Co-Director" },
-    { initials: "EX", name: "TBA", role: "General Executive", tag: "Executive" },
     { initials: "EX", name: "TBA", role: "Marketing Lead", tag: "Executive" },
     { initials: "EX", name: "TBA", role: "Tech Lead", tag: "Executive" },
     { initials: "EX", name: "TBA", role: "Marketing", tag: "Executive" },
