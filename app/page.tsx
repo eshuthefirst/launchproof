@@ -641,7 +641,7 @@ function TeamPage() {
   const executives = [
     { initials: "ES", name: "Eshwar Sai Ganipineni", role: "Founder & Director", tag: "Director" },
     { initials: "HV", name: "Hari Vemuri", role: "Co-Director", tag: "Co-Director" },
-    { initials: "AS", name: "Ajay Sekar", role: "General Executive", tag: "Executive" },
+    { initials: "EX", name: "TBA", role: "General Executive", tag: "Executive" },
     { initials: "EX", name: "TBA", role: "Marketing Lead", tag: "Executive" },
     { initials: "EX", name: "TBA", role: "Tech Lead", tag: "Executive" },
     { initials: "EX", name: "TBA", role: "Marketing", tag: "Executive" },
