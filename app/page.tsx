@@ -678,10 +678,10 @@ function TeamPage() {
   const executives = [
     { initials: "ES", name: "Eshwar Sai Ganipineni", role: "Director", tag: "Director" },
     { initials: "HV", name: "Hari Vemuri", role: "Co-Director", tag: "Co-Director" },
-    { initials: "EX", name: "TBA", role: "General Executive", tag: "Executive" },
-    { initials: "EX", name: "TBA", role: "Marketing Lead", tag: "Executive" },
-    { initials: "EX", name: "TBA", role: "Tech Lead", tag: "Executive" },
-    { initials: "EX", name: "TBA", role: "Marketing", tag: "Executive" },
+    { initials: "EX", name: "TBD", role: "General Executive", tag: "Executive" },
+    { initials: "EX", name: "TBD", role: "Marketing Lead", tag: "Executive" },
+    { initials: "EX", name: "TBD", role: "Tech Lead", tag: "Executive" },
+    { initials: "EX", name: "TBD", role: "Marketing", tag: "Executive" },
   ];
   return (
     <div className="page">
