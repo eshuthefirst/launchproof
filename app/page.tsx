@@ -107,11 +107,11 @@ nav {
 @media (max-width: 900px) { .two-col, .two-col-left-wide { grid-template-columns: 1fr; gap: 32px; } }
 
 /* HERO */
-.hero { min-height: calc(100vh - var(--nav-h)); display: flex; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; padding: 80px 20px; }
+.hero { min-height: calc(100vh - var(--nav-h)); display: flex; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; padding: 80px clamp(16px,4vw,48px); }
 .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(59,130,246,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 80% 80%, rgba(96,165,250,0.08) 0%, transparent 60%); pointer-events: none; }
 .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 70%); pointer-events: none; }
 .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; background: var(--blue-dim); border: 1px solid rgba(59,130,246,0.3); border-radius: 99px; font-size: 0.78rem; font-weight: 600; color: var(--blue-light); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 24px; }
-.hero h1 { font-family: var(--font-display); font-size: clamp(2.4rem, 7vw, 5.5rem); font-weight: 800; line-height: 1; letter-spacing: -0.04em; margin-bottom: 20px; white-space: nowrap; }
+.hero h1 { font-family: var(--font-display); font-size: clamp(2.4rem, 6vw, 5rem); font-weight: 800; line-height: 1; letter-spacing: -0.04em; margin-bottom: 20px; white-space: nowrap; overflow: hidden; }
 .hero h1 .accent { background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .hero-tagline { font-family: var(--font-display); font-size: clamp(1rem, 3vw, 1.5rem); font-weight: 600; color: var(--grey); margin-bottom: 12px; letter-spacing: 0.02em; }
 .hero-sub { font-size: clamp(0.9rem, 2vw, 1.05rem); color: var(--grey-dim); max-width: 460px; margin: 0 auto 36px; line-height: 1.6; }
@@ -306,11 +306,25 @@ function HomePage({ setPage }: { setPage: (p: Page) => void }) {
       <section className="hero">
         <div className="hero-bg" />
         <div className="hero-grid" />
-        <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: 680, margin: "0 auto", textAlign: "center" }}>
+        <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: 640, marginLeft: "auto", marginRight: "auto", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
           <div className="hero-badge fade-up">High School Startup Competition</div>
           <h1 className="fade-up-2">Launch<span className="accent">Proof</span></h1>
           <p className="hero-tagline fade-up-3">"Build it. Prove it. Pitch it."</p>
           <p className="hero-sub fade-up-3">Prototype-based startup competition for high school students</p>
+          {/* Theme display */}
+          <div className="fade-up-3" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, marginBottom: 28 }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--grey-dim)", marginBottom: 2 }}>2026 Themes</div>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "center" }}>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 7, padding: "7px 16px", background: "rgba(59,130,246,0.1)", border: "1px solid rgba(59,130,246,0.35)", borderRadius: 99, fontSize: "0.82rem", fontWeight: 700, color: "var(--blue-light)" }}>
+                <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--blue-light)", flexShrink: 0, display: "inline-block" }} />
+                Technology That Solves Real Problems
+              </div>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 7, padding: "7px 16px", background: "rgba(59,130,246,0.1)", border: "1px solid rgba(59,130,246,0.35)", borderRadius: 99, fontSize: "0.82rem", fontWeight: 700, color: "var(--blue-light)" }}>
+                <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--blue-light)", flexShrink: 0, display: "inline-block" }} />
+                Future Cities &amp; Smart Systems
+              </div>
+            </div>
+          </div>
           <div className="fade-up-4" style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginBottom: 28 }}>
             <a href={REGISTER_FORM_LINK} target="_blank" rel="noopener noreferrer" className="btn-primary">Register Now</a>
             <button className="btn-outline" onClick={() => { setPage("competition"); window.scrollTo({ top: 0, behavior: "smooth" }); }}>Learn More</button>
@@ -320,6 +334,29 @@ function HomePage({ setPage }: { setPage: (p: Page) => void }) {
       </section>
 
       <div className="divider" />
+
+      {/* ── THEMES STRIP ── */}
+      <section style={{ padding: "48px 0", background: "var(--bg2)", borderBottom: "1px solid var(--border)" }}>
+        <div className="container" style={{ textAlign: "center" }}>
+          <div style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--grey-dim)", marginBottom: 16 }}>2026 Competition Themes</div>
+          <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
+            {[
+              { label: "Technology That Solves Real Problems", desc: "Build something that addresses a genuine challenge people face today." },
+              { label: "Future Cities & Smart Systems", desc: "Design solutions that shape how communities, infrastructure, and cities evolve." },
+            ].map((theme, i) => (
+              <div key={i} style={{ flex: "1 1 280px", maxWidth: 440, padding: "24px 28px", background: "var(--bg3)", border: "1px solid rgba(59,130,246,0.25)", borderRadius: "var(--radius-lg)", textAlign: "left", transition: "border-color var(--transition), transform var(--transition)" }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(59,130,246,0.55)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(59,130,246,0.25)"; (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                  <div style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--blue)", flexShrink: 0 }} />
+                  <div style={{ fontFamily: "var(--font-display)", fontSize: "1rem", fontWeight: 800, color: "var(--white)" }}>{theme.label}</div>
+                </div>
+                <div style={{ fontSize: "0.85rem", color: "var(--grey)", lineHeight: 1.6, paddingLeft: 18 }}>{theme.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section className="section">
         <div className="container">
@@ -586,10 +623,10 @@ function FAQPage() {
               <p className="section-desc" style={{ marginBottom: 36 }}>Mark your calendar and plan accordingly.</p>
               <div className="timeline">
                 {[
-                  { date: "May 13, 2025", title: "Registration Opens", desc: "Teams can register via the Google Form." },
-                  { date: "May 23, 2025", title: "Registration Closes", desc: "Final day to register your team. Make sure your team is locked in." },
-                  { date: "June 20, 2025", title: "Submission Deadline", desc: "All video presentations must be submitted via the Google Form by 11:59 PM." },
-                  { date: "June 20 – July 5, 2025", title: "Judging Period", desc: "The LaunchProof executive team reviews all submissions. Note: judging may be delayed due to exam season." },
+                  { date: "May 13, 2026", title: "Registration Opens", desc: "Teams can register via the Google Form." },
+                  { date: "May 23, 2026", title: "Registration Closes", desc: "Final day to register your team. Make sure your team is locked in." },
+                  { date: "June 20, 2026", title: "Submission Deadline", desc: "All video presentations must be submitted via the Google Form by 11:59 PM." },
+                  { date: "June 20 – July 5, 2026", title: "Judging Period", desc: "The LaunchProof executive team reviews all submissions. Note: judging may be delayed due to exam season." },
                   { date: "Unknown", title: "Results Announced", desc: "Winners announced and certificates distributed following the conclusion of the judging period." },
                 ].map((t, i) => (
                   <div className="timeline-item" key={i}>
@@ -606,10 +643,10 @@ function FAQPage() {
               <h2 className="section-title">At a Glance</h2>
               <div className="card" style={{ padding: "0", overflow: "hidden", marginBottom: 20 }}>
                 {[
-                  { k: "Registration Opens", v: "May 13, 2025" },
-                  { k: "Registration Closes", v: "May 23, 2025" },
-                  { k: "Submission Deadline", v: "June 20, 2025" },
-                  { k: "Judging Period", v: "June 20 – July 5, 2025" },
+                  { k: "Registration Opens", v: "May 13, 2026" },
+                  { k: "Registration Closes", v: "May 23, 2026" },
+                  { k: "Submission Deadline", v: "June 20, 2026" },
+                  { k: "Judging Period", v: "June 20 – July 5, 2026" },
                   { k: "Results", v: "After judging period" },
                 ].map((r, i) => (
                   <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "13px 20px", borderBottom: i < 4 ? "1px solid var(--border)" : "none", fontSize: "0.875rem" }}>
@@ -743,7 +780,7 @@ function SubmissionPage() {
                   onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "var(--blue)"; (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.animation = "pulse-ring 2.5s ease infinite"; }}>
                   Submit Your Work →
                 </a>
-                <div style={{ marginTop: 16, fontSize: "0.8rem", color: "var(--grey-dim)" }}>Submission deadline: <strong style={{ color: "var(--grey)" }}>June 20, 2025 · 11:59 PM</strong></div>
+                <div style={{ marginTop: 16, fontSize: "0.8rem", color: "var(--grey-dim)" }}>Submission deadline: <strong style={{ color: "var(--grey)" }}>June 20, 2026 · 11:59 PM</strong></div>
                 <div style={{ height: 1, background: "var(--border)", margin: "28px 0" }} />
                 <div style={{ textAlign: "left" }}>
                   <div style={{ fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--blue)", marginBottom: 12 }}>Key Reminders</div>
